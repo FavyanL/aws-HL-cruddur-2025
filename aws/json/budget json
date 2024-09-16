@@ -1,52 +1,31 @@
 {
-  "BudgetName": "Example Tag Budget",
   "BudgetLimit": {
-    "Amount": "1",
-    "Unit": "USD"
+      "Amount": "1",
+      "Unit": "USD"
   },
-  "PlannedBudgetLimits": {"string": {
-        "Amount": "1",
-        "Unit": "string"
-      }
-    ...},
-  "CostFilters": {"string": ["string", ...]
-    ...},
+  "BudgetName": "Example Tag Budget",
+  "BudgetType": "COST",
+  "CostFilters": {
+      "TagKeyValue": [
+          "user:Key$value1",
+          "user:Key$value2"
+      ]
+  },
   "CostTypes": {
-    "IncludeTax": true|false,
-    "IncludeSubscription": true|false,
-    "UseBlended": true|false,
-    "IncludeRefund": true|false,
-    "IncludeCredit": true|false,
-    "IncludeUpfront": true|false,
-    "IncludeRecurring": true|false,
-    "IncludeOtherSubscription": true|false,
-    "IncludeSupport": true|false,
-    "IncludeDiscount": true|false,
-    "UseAmortized": true|false
+      "IncludeCredit": true,
+      "IncludeDiscount": true,
+      "IncludeOtherSubscription": true,
+      "IncludeRecurring": true,
+      "IncludeRefund": true,
+      "IncludeSubscription": true,
+      "IncludeSupport": true,
+      "IncludeTax": true,
+      "IncludeUpfront": true,
+      "UseBlended": false
   },
-  "TimeUnit": "DAILY"|"MONTHLY"|"QUARTERLY"|"ANNUALLY",
   "TimePeriod": {
-    "Start": timestamp,
-    "End": timestamp
+      "Start": 1477958399,
+      "End": 3706473600
   },
-  "CalculatedSpend": {
-    "ActualSpend": {
-      "Amount": "string",
-      "Unit": "string"
-    },
-    "ForecastedSpend": {
-      "Amount": "string",
-      "Unit": "string"
-    }
-  },
-  "BudgetType": "USAGE"|"COST"|"RI_UTILIZATION"|"RI_COVERAGE"|"SAVINGS_PLANS_UTILIZATION"|"SAVINGS_PLANS_COVERAGE",
-  "LastUpdatedTime": timestamp,
-  "AutoAdjustData": {
-    "AutoAdjustType": "HISTORICAL"|"FORECAST",
-    "HistoricalOptions": {
-      "BudgetAdjustmentPeriod": integer,
-      "LookBackAvailablePeriods": integer
-    },
-    "LastAutoAdjustTime": timestamp
-  }
+  "TimeUnit": "MONTHLY"
 }
