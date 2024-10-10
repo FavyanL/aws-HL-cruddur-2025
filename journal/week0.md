@@ -15,6 +15,9 @@ I created an alarm using CloudWatch for activity and to keep in the free tier as
 ![CloudWatch alarm I created](assets/Alarm.png)
 
 ### Logical Architecture diagram
+
+I recreated this Architechture design using Lucid Charts to practice and understand a basic design 
+
 ![Lucid Chart Diagram](assets/Logical%20chart.png)
 
 ### Logical Architecture Diagram link
