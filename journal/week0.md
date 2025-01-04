@@ -63,3 +63,16 @@ I recreated this Architechture design using Lucid Charts to practice and underst
 }
 
 ```
+
+## List Example 
+
+- This 
+- Is
+- A
+- List
+
+  ## Table Example
+  | My | Cool | Table |
+  | ---| -----|-------|
+  | HI | Example| ! |
+  
