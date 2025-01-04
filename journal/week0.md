@@ -31,7 +31,7 @@ I recreated this Architechture design using Lucid Charts to practice and underst
     "AlarmDescription": "This alarm would be triggered if the daily estimated charges exceeds 50$",
     "ActionsEnabled": true,
     "AlarmActions": [
-        "arn:aws:sns:us-east-1:***REMOVED***:billing-alarm"
+        "arn:aws:sns:us-east-1:911167897863:billing-alarm"
     ],
     "EvaluationPeriods": 1,
     "DatapointsToAlarm": 1,
