@@ -33,3 +33,13 @@ Then we need to unset the variables so that they are not active
 unset FRONTEND_URL="*"
 unset BACKEND_URL="*"
 
+
+For the FRONT end:
+
+Go into the front end directory 
+Run command : npm i 
+to install npm, the create the docker file 
+
+
+Crea a new yml file names docker-compose.yml
+will be used to run both containers that need to work together at the same time
