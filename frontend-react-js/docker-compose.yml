@@ -12,11 +12,13 @@ services:
   frontend-react-js:
     environment:
       REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-    build: .
+    build: 
+        context: .  # The build context is the current directory
+        dockerfile: Dockerfile  # Specify the Dockerfile name explicitly
     ports:
       - "3000:3000"
     volumes: 
-      - ${PWD}:/frontend-react-js
+      - .:/frontend-react-js
 
 networks:
   interval-network:

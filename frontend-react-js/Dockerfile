@@ -4,21 +4,21 @@ FROM node:16.18
 # Setup the environment variable PORT and set it to 3000
 ENV PORT=3000
 
-# Set the working directory inside the container to /frontend-react-js
+# Set the working directory inside the container
 WORKDIR /frontend-react-js
 
-# Copy the package.json and package-lock.json files to the working directory
+# Copy the package.json and package-lock.json files first
 COPY package.json package-lock.json ./
 
-# Install the dependencies defined in package.json
-RUN npm install
+# Install dependencies
+RUN npm install --legacy-peer-deps
 
-# Copy the rest of the application files into the working directory
+# Copy the rest of the application files
 COPY . .
 
-# Expose the application port (3000) to allow external access
-EXPOSE ${PORT}
+# Expose port 3000
+EXPOSE 3000
 
-# Start the React application using npm when the container runs
-CMD ["npm", "start"]
+# Start the React application
+CMD ["npm", "start"t
 
