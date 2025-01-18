@@ -18,7 +18,11 @@ services:
     ports:
       - "3000:3000"
     volumes: 
-      - .:/frontend-react-js
+    # Map only necessary directories and files to avoid overwriting container-specific files
+      - ./src:/frontend-react-js/src
+      - ./public:/frontend-react-js/public
+      - ./package.json:/frontend-react-js/package.json
+      - ./package-lock.json:/frontend-react-js/package-lock.json
 
 networks:
   interval-network:
