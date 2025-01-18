@@ -3,27 +3,26 @@ services:
     environment:
       FRONTEND_URL: "https://3001-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-    build: ../backend-flask
+    build: ./backend-flask
     ports:
       - "4567:4567"
     volumes:
-      - ../backend-flask:/backend-flask
+      - ./backend-flask:/backend-flask
 
   frontend-react-js:
     environment:
       REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-    build: 
-        context: .  # The build context is the current directory
-        dockerfile: Dockerfile  # Specify the Dockerfile name explicitly
+    build: ./frontend-react-js
     ports:
       - "3000:3000"
     volumes: 
     # Map only necessary directories and files to avoid overwriting container-specific files
-      - ./src:/frontend-react-js/src
-      - ./public:/frontend-react-js/public
-      - ./package.json:/frontend-react-js/package.json
-      - ./package-lock.json:/frontend-react-js/package-lock.json
+      - ./frontend-react-js/src:/frontend-react-js/src
+      - ./frontend-react-js/public:/frontend-react-js/public
+      - ./frontend-react-js/package.json:/frontend-react-js/package.json
+      - ./frontend-react-js/package-lock.json:/frontend-react-js/package-lock.json
 
+#the name flag is a hack to change the default prepend folder name when outputting the image names
 networks:
   interval-network:
     driver: bridge 
