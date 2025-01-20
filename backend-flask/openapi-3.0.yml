@@ -152,7 +152,7 @@ paths:
     get:
       description: 'return a feed of activity for all followers'
       tags:
-        -activities
+        - activities
       parameters: []
       responses:
         '200':
