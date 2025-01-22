@@ -43,3 +43,23 @@ to install npm, the create the docker file
 
 Crea a new yml file names docker-compose.yml
 will be used to run both containers that need to work together at the same time
+
+both ports in the front end and back end actually work and the inital page shows on the ports URL
+
+*insert scrreenshot of home page*
+
+
+now to set up the notifications page:
+
+On the backend: creat a notifications_activities.py file modeled after the home page.py file 
+  Go to the app.py file in the back ednfolder and add a notifications @app.route modeled after the home page @app route 
+
+  in the openapi.yml file add the appi path to the notifications page with parameter modeled after home page 
+
+On the front end
+
+create a notifications .svg files under the svg folder 
+Create a notifications .js and .css in the pages folder and add notifications import to the app.js file
+
+Buidl the DyynamoDB code into the yml file to run an emulation of dynamoDB since it's a lot faster
+the website is the following: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
