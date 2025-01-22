@@ -60,4 +60,6 @@ On the front end
 
 create a notifications .svg files under the svg folder 
 Create a notifications .js and .css in the pages folder and add notifications import to the app.js file
-  
+
+Buidl the DyynamoDB code into the yml file to run an emulation of dynamoDB since it's a lot faster
+the website is the following: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
