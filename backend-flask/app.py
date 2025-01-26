@@ -17,25 +17,25 @@ from services.show_activity import *
 #HoneyComb .........
 from opentelemetry import trace 
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
-from opentelemetry.instrumentation.request import RequestInstrumentor
-from opentelemetry.exporter.otpl.proto.http.trace_exporter import OTPLSpanExporter
-from opentelemetry.sdk.trace import TraceProvider
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 #HoneyComb .........
 #Initialize tracing and an exporter that can send data to HoneyComb
-provider = TraceProvider()
+provider = TracerProvider()
 processor = BatchSpanProcessor(OTLPSpanExporter())
 provider.add_span_processor(processor)
 trace.set_tracer_provider(provider)
-tracer = trace.get_tracer(_name_)
+tracer = trace.get_tracer(__name__)
 
 app = Flask(__name__)
 
 #HoneyComb ....abs
 #Initialize automatic instrumentation with flask
 FlaskInstrumentor().instrument_app(app)
-RequestInstrumentor().instrument()
+RequestsInstrumentor().instrument()
 
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
