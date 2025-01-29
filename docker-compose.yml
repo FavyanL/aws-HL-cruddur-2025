@@ -3,9 +3,11 @@ services:
     environment:
       FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-      OTEL_SERVICE_NAME: 'backend-flask'
-      OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
-      OTEL_EXPORTER_OTLP_HEADER: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
+      HONEYCOMB_API_KEY: "8PGvHyKZhUGUuuJRyFeefC"
+      HONEYCOMB_DATASET: "test-dataset"  # Make sure this matches your working dataset!
+      OTEL_SERVICE_NAME: "backend-flask"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io:443/v1/traces"
+      OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=hcaik_01jjhk4hywsfp4qaengzbzd5rf"
     build: ./backend-flask
     ports:
       - "4567:4567"
@@ -18,45 +20,38 @@ services:
     build: ./frontend-react-js
     ports:
       - "3000:3000"
-    volumes: 
-    # Map only necessary directories and files to avoid overwriting container-specific files
+    volumes:
       - ./frontend-react-js/src:/frontend-react-js/src
       - ./frontend-react-js/public:/frontend-react-js/public
       - ./frontend-react-js/package.json:/frontend-react-js/package.json
       - ./frontend-react-js/package-lock.json:/frontend-react-js/package-lock.json
 
-# adding dynamoDB code 
   dynamodb-local:
-  #https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permissions-unable-to-open-database
-  # We need to ass user:root to get this working 
-    user: root 
+    user: root
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data"
     image: "amazon/dynamodb-local:latest"
     ports:
-     - "8000:8000"
+      - "8000:8000"
     volumes:
-    #mapping tthe directory below to replicate data 
       - "./docker/dynamodb:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
 
   db:
-    image: postgres:13-alpine 
-    restart: always 
-    environment: 
+    image: postgres:13-alpine
+    restart: always
+    environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     ports:
-     - "5432:5432"
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
-    
-#the name flag is a hack to change the default prepend folder name when outputting the image names
+
 networks:
   interval-network:
-    driver: bridge 
+    driver: bridge
     name: cruddur
 
-#referencing a volume for the database, driver:local means storing the database locally 
 volumes:
   db:
-    driver: local 
+    driver: local
