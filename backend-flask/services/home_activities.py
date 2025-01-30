@@ -7,7 +7,9 @@ class HomeActivities:
   def run():
     with tracer.start_as_current_span("home-activities-mock-data"):
     # prepare to auth
+      span = trace.get_current_span()
       now = datetime.now(timezone.utc).astimezone()
+      span.set_attribute("app.now", now.isoformat)
       results = [{
         'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
         'handle':  'Hugo Lombana',
@@ -47,4 +49,5 @@ class HomeActivities:
         'replies': []
       }
       ]
-    return results
+      span.set_attribute("app.result_length", leng(results))
+      return results
