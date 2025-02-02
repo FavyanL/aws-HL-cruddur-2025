@@ -30,6 +30,14 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app
 app = Flask(__name__)
 
+#X-Ray 
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.confirgure(service="backend-flask", dynamic_naming=xray_url)
+XRayMiddleware(app, xray_recorder)
+
 # OpenTelemetry setup
 # Load API key
 honeycomb_api_key = os.getenv("HONEYCOMB_API_KEY")
