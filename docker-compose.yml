@@ -8,11 +8,15 @@ services:
       OTEL_SERVICE_NAME: "backend-flask"
       OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io:443/v1/traces"
       OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=hcaik_01jjhk4hywsfp4qaengzbzd5rf"
+      AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"  # Update this!
+      AWS_REGION: "us-east-1"  # Set your AWS region
     build: ./backend-flask
     ports:
       - "4567:4567"
     volumes:
       - ./backend-flask:/backend-flask
+    depends_on:
+      - xray-daemon 
 
   frontend-react-js:
     environment:
@@ -25,6 +29,16 @@ services:
       - ./frontend-react-js/public:/frontend-react-js/public
       - ./frontend-react-js/package.json:/frontend-react-js/package.json
       - ./frontend-react-js/package-lock.json:/frontend-react-js/package-lock.json
+  xray-daemon:
+    image: amazon/aws-xray-daemon:latest
+    restart: always
+    ports:
+      - "2000:2000/udp"  # ✅ Ensure this matches AWS_XRAY_DAEMON_ADDRESS
+    command: [ "--region", "us-east-1", "--local-mode" ]  # ✅ Explicitly set region
+    environment:
+      - AWS_REGION=us-east-1  # ✅ Ensure AWS Region is explicitly set
+    networks:
+      - interval-network
 
   dynamodb-local:
     user: root

@@ -1,0 +1,21 @@
+{
+    "Groups": [
+        {
+            "GroupName": "Cruddur",
+            "GroupARN": "arn:aws:xray:us-east-1:911167897863:group/Cruddur/UY4VAUCEQHA3JZWAGZKAKC7SSH2FVEHWSQBW4KAMQIKQYJE2HU5Q",
+            "FilterExpression": "service(\"backend-flask\")",
+            "InsightsConfiguration": {
+                "InsightsEnabled": true,
+                "NotificationsEnabled": true
+            }
+        },
+        {
+            "GroupName": "Default",
+            "GroupARN": "arn:aws:xray:us-east-1:911167897863:group/Default",
+            "InsightsConfiguration": {
+                "InsightsEnabled": false,
+                "NotificationsEnabled": false
+            }
+        }
+    ]
+}
