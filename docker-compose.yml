@@ -36,7 +36,10 @@ services:
     ports:
       - "2000:2000/udp"  # matches AWS_XRAY_DAEMON_ADDRESS
     command: 
-      - "xray -o -b xray-daemon:2000"
+      - "-o"    # Enable local mode (important for Gitpod)
+      - "-b"    # Bind to all interfaces
+      - "0.0.0.0:2000"  # Bind to the correct address      
+
     environment:
       - AWS_REGION=us-east-1  # AWS Region is explicitly set
       - AWS_ACCESS_KEY_ID= "${AWS_ACCESS_KEY_ID}"
