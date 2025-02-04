@@ -11,6 +11,8 @@ services:
       AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
       AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"  # Update this!
       AWS_REGION: "us-east-1"  # Set your AWS region
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     build: ./backend-flask
     ports:
       - "4567:4567"
@@ -42,8 +44,8 @@ services:
 
     environment:
       - AWS_REGION=us-east-1  # AWS Region is explicitly set
-      - AWS_ACCESS_KEY_ID= "${AWS_ACCESS_KEY_ID}"
-      - AWS_SECRET_ACCESS_KEY= "${AWS_SECRET_ACCESS_KEY}" 
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
     networks:
       - interval-network
