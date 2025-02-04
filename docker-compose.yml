@@ -8,6 +8,7 @@ services:
       OTEL_SERVICE_NAME: "backend-flask"
       OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io:443/v1/traces"
       OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=hcaik_01jjhk4hywsfp4qaengzbzd5rf"
+      AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
       AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"  # Update this!
       AWS_REGION: "us-east-1"  # Set your AWS region
     build: ./backend-flask
@@ -33,10 +34,14 @@ services:
     image: amazon/aws-xray-daemon:latest
     restart: always
     ports:
-      - "2000:2000/udp"  # ✅ Ensure this matches AWS_XRAY_DAEMON_ADDRESS
-    command: [ "--region", "us-east-1", "--local-mode" ]  # ✅ Explicitly set region
+      - "2000:2000/udp"  # matches AWS_XRAY_DAEMON_ADDRESS
+    command: 
+      - "xray -o -b xray-daemon:2000"
     environment:
-      - AWS_REGION=us-east-1  # ✅ Ensure AWS Region is explicitly set
+      - AWS_REGION=us-east-1  # AWS Region is explicitly set
+      - AWS_ACCESS_KEY_ID= "${AWS_ACCESS_KEY_ID}"
+      - AWS_SECRET_ACCESS_KEY= "${AWS_SECRET_ACCESS_KEY}" 
+
     networks:
       - interval-network
 
