@@ -4,13 +4,13 @@ services:
       FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       HONEYCOMB_API_KEY: "8PGvHyKZhUGUuuJRyFeefC"
-      HONEYCOMB_DATASET: "test-dataset"  # Make sure this matches your working dataset!
+      HONEYCOMB_DATASET: "test-dataset"
       OTEL_SERVICE_NAME: "backend-flask"
       OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io:443/v1/traces"
       OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=hcaik_01jjhk4hywsfp4qaengzbzd5rf"
       AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
-      AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"  # Update this!
-      AWS_REGION: "us-east-1"  # Set your AWS region
+      AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"  # Use service name, not static IP
+      AWS_REGION: "us-east-1"
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     build: ./backend-flask
@@ -32,21 +32,19 @@ services:
       - ./frontend-react-js/public:/frontend-react-js/public
       - ./frontend-react-js/package.json:/frontend-react-js/package.json
       - ./frontend-react-js/package-lock.json:/frontend-react-js/package-lock.json
+
   xray-daemon:
     image: amazon/aws-xray-daemon:latest
     restart: always
     ports:
-      - "2000:2000/udp"  # matches AWS_XRAY_DAEMON_ADDRESS
+      - "2000:2000/udp"
+      - "2000:2000/tcp"
     command: 
-      - "-o"    # Enable local mode (important for Gitpod)
-      - "-b"    # Bind to all interfaces
-      - "0.0.0.0:2000"  # Bind to the correct address      
-
+      - "-o"   # Enable local mode
+      - "-b"   # Bind to all interfaces
+      - "0.0.0.0:2000" 
     environment:
-      - AWS_REGION=us-east-1  # AWS Region is explicitly set
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-
+      - AWS_REGION=us-east-1
     networks:
       - interval-network
 

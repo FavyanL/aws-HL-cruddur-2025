@@ -24,19 +24,25 @@ from opentelemetry.sdk.trace.sampling import ALWAYS_ON
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+#X-Ray 
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+from aws_xray_sdk.core import patch_all
 
 # Initialize Flask app
 app = Flask(__name__)
 
-#X-Ray 
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 xray_url = os.getenv("AWS_XRAY_URL")
-xray_recorder.configure(service="backend-flask", daemon_address="xray-daemon:2000")
+xray_recorder.configure(service="backend-flask", daemon_address=os.getenv("AWS_XRAY_DAEMON_ADDRESS", "xray-daemon:2000"))
 XRayMiddleware(app, xray_recorder)
+xray_recorder.configure(context_missing='LOG_ERROR')
+
+patch_all()
+
+xray_recorder.begin_segment('FlaskAppInitialization')
 
 # OpenTelemetry setup
 # Load API key
@@ -168,3 +174,18 @@ def data_activities_reply(activity_uuid):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=4567, debug=True)
+
+@app.route("/test-xray")
+def test_xray():
+    try:
+        # Ensure segment starts
+        segment = xray_recorder.begin_segment('TestSegment')
+        subsegment = xray_recorder.begin_subsegment('TestSubsegment')
+        subsegment.put_annotation("test", "flask-xray")
+        xray_recorder.end_subsegment()
+        xray_recorder.end_segment()
+
+        return {"message": "X-Ray Trace Successful"}
+    except Exception as e:
+        return {"error": str(e)}, 500
+
