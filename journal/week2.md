@@ -25,3 +25,12 @@ Modificatios also to docker compose app
 
 On honeycomb go to home and you can visualize the data 
 go to query and you can filter by duration or percent of fastest request 
+
+##X-ray 
+created a group on amazon xray (now cloudwatch) and it shows sucessfully 
+
+Created a sampling rule using CLI 
+
+Add Daemon Service to docker compose 
+
+and then send traces to X ray 
