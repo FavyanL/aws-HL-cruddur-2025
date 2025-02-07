@@ -42,10 +42,11 @@ services:
       - "2000:2000/udp"
       - "2000:2000/tcp"
     command: 
-      - "-o"   # Enable local mode
-      - "-n"   # Send traces to AWS
-      - "-b"   # Bind to all interfaces
-      - "0.0.0.0:2000" 
+      - "--bind" 
+      - "0.0.0.0:2000"
+      - "--local-mode"
+      - "--log-level" 
+      - "info"
     environment:
       - AWS_REGION=us-east-1
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
