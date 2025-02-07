@@ -36,11 +36,14 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 xray_url = os.getenv("AWS_XRAY_URL")
-xray_recorder.configure(service="backend-flask", daemon_address=os.getenv("AWS_XRAY_DAEMON_ADDRESS", "xray-daemon:2000"))
-XRayMiddleware(app, xray_recorder)
-xray_recorder.configure(context_missing='LOG_ERROR')
+xray_recorder.configure(
+    service="backend-flask",
+    daemon_address="localhost:2000",
+    context_missing="LOG_ERROR",  # Prevent crashes if context is missing
+)
 
 patch_all()
+XRayMiddleware(app, xray_recorder)
 
 xray_recorder.begin_segment('FlaskAppInitialization')
 
@@ -178,14 +181,38 @@ if __name__ == "__main__":
 @app.route("/test-xray")
 def test_xray():
     try:
-        # Ensure segment starts
-        segment = xray_recorder.begin_segment('TestSegment')
-        subsegment = xray_recorder.begin_subsegment('TestSubsegment')
-        subsegment.put_annotation("test", "flask-xray")
+        print("🔍 Checking AWS X-Ray Recorder State...")
+
+        # Force-start a new segment if missing
+        if xray_recorder.current_segment() is None:
+            print("⚠️ No active segment found, creating a new one.")
+            xray_recorder.begin_segment("TestSegment")
+
+        # Start a subsegment (required for HTTP metadata)
+        with xray_recorder.in_segment("TestSegment") as segment:
+            with xray_recorder.in_subsegment("TestSubsegment") as subsegment:
+                subsegment.put_annotation("test", "flask-xray")
+                subsegment.put_metadata("debug_info", {"env": os.environ.get("AWS_REGION")})
+
+        return {"message": "X-Ray Trace Successful"}, 200
+    except Exception as e:
+        print(f"❌ Error in X-Ray Test: {e}")
+        return {"error": str(e)}, 500
+
+@app.route("/debug-xray")
+def debug_xray():
+    try:
+        segment = xray_recorder.begin_segment("DebugXRaySegment")
+        subsegment = xray_recorder.begin_subsegment("DebugXRaySubsegment")
+
+        # Add debugging data
+        subsegment.put_annotation("test", "debugging-xray")
+        subsegment.put_metadata("env", os.environ.get("AWS_REGION"), "debug-metadata")
+
         xray_recorder.end_subsegment()
         xray_recorder.end_segment()
 
-        return {"message": "X-Ray Trace Successful"}
+        return {"message": "Debug X-Ray segment sent!"}, 200
     except Exception as e:
         return {"error": str(e)}, 500
 

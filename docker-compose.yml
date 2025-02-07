@@ -20,6 +20,8 @@ services:
       - ./backend-flask:/backend-flask
     depends_on:
       - xray-daemon 
+    networks:
+      - aws-bootcamp-cruddur-2023_aws-bootcamp-cruddur-2023_cruddur
 
   frontend-react-js:
     environment:
@@ -41,12 +43,15 @@ services:
       - "2000:2000/tcp"
     command: 
       - "-o"   # Enable local mode
+      - "-n"   # Send traces to AWS
       - "-b"   # Bind to all interfaces
       - "0.0.0.0:2000" 
     environment:
       - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     networks:
-      - interval-network
+      - aws-bootcamp-cruddur-2023_aws-bootcamp-cruddur-2023_cruddur
 
   dynamodb-local:
     user: root
@@ -70,9 +75,9 @@ services:
       - db:/var/lib/postgresql/data
 
 networks:
-  interval-network:
+  aws-bootcamp-cruddur-2023_aws-bootcamp-cruddur-2023_cruddur:
     driver: bridge
-    name: cruddur
+
 
 volumes:
   db:
