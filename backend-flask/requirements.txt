@@ -11,3 +11,6 @@ opentelemetry-instrumentation-requests==0.47b0
 aws-xray-sdk
 
 watchtower
+
+blinker 
+rollbar
