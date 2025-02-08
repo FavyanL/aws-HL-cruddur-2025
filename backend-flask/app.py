@@ -34,7 +34,7 @@ import watchtower, logging
 from time import strftime
 
 #Rollbar 
-import os
+#import os
 import rollbar
 import rollbar.contrib.flask
 from flask import got_request_exception
@@ -79,10 +79,8 @@ xray_recorder.configure(
     daemon_address="localhost:2000",
     context_missing="LOG_ERROR",  # Prevent crashes if context is missing
 )
-
 patch_all()
 XRayMiddleware(app, xray_recorder)
-
 xray_recorder.begin_segment('FlaskAppInitialization')
 
 # OpenTelemetry setup
