@@ -34,3 +34,11 @@ Created a sampling rule using CLI
 Add Daemon Service to docker compose 
 
 and then send traces to X ray 
+
+Add Cloudwatch group Cruddur and send logs 
+
+Implement Rollbar 
+
+Rollbar first data 
+
+Rollbar first error
