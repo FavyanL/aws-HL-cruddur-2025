@@ -11,6 +11,10 @@ import MessageGroupPage from './pages/MessageGroupPage';
 import ConfirmationPage from './pages/ConfirmationPage';
 import React from 'react';
 import { Amplify } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsExports from './aws-exports';
 
 Amplify.configure({
   Auth: {
@@ -18,8 +22,9 @@ Amplify.configure({
     userPoolId: process.env.REACT_APP_AWS_COGNITO_USER_POOLS_ID, 
     userPoolWebClientId: process.env.REACT_APP_CLIENT_ID
   },
-  oauth: {} // Keep this empty unless using OAuth providers like Google, Facebook, etc.
+  oauth: {} // Ensure this remains empty unless using OAuth
 });
+
 
 import {
   createBrowserRouter,
