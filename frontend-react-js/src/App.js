@@ -11,11 +11,11 @@ import MessageGroupPage from './pages/MessageGroupPage';
 import ConfirmationPage from './pages/ConfirmationPage';
 import React from 'react';
 import { Amplify } from 'aws-amplify';
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
+import '@aws-amplify/ui-react/dist/styles.css';
 
-import awsExports from './aws-exports';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// 🔹 Removed incorrect `createBrowserRouter`
 Amplify.configure({
   Auth: {
     region: process.env.REACT_APP_AWS_PROJECT_REGION,  
@@ -25,56 +25,21 @@ Amplify.configure({
   oauth: {} // Ensure this remains empty unless using OAuth
 });
 
-
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomeFeedPage />
-  },
-  {
-    path: "/notifications",
-    element: <NotificationsFeedPage />
-  },
-  {
-    path: "/@:handle",
-    element: <UserFeedPage />
-  },
-  {
-    path: "/messages",
-    element: <MessageGroupsPage />
-  },
-  {
-    path: "/messages/@:handle",
-    element: <MessageGroupPage />
-  },
-  {
-    path: "/signup",
-    element: <SignupPage />
-  },
-  {
-    path: "/signin",
-    element: <SigninPage />
-  },
-  {
-    path: "/confirm",
-    element: <ConfirmationPage />
-  },
-  {
-    path: "/forgot",
-    element: <RecoverPage />
-  }
-]);
-
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomeFeedPage />} />
+        <Route path="/notifications" element={<NotificationsFeedPage />} />
+        <Route path="/@:handle" element={<UserFeedPage />} />
+        <Route path="/messages" element={<MessageGroupsPage />} />
+        <Route path="/messages/@:handle" element={<MessageGroupPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signin" element={<SigninPage />} />
+        <Route path="/confirm" element={<ConfirmationPage />} />
+        <Route path="/forgot" element={<RecoverPage />} />
+      </Routes>
+    </Router>
   );
 }
 
