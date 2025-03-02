@@ -13,19 +13,12 @@ import React from 'react';
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
-  "AWS_PROJECT_REGION": process.env.REACT_APP_AWS_PROJECT_REGION,
-  "aws_cognito_region": process.env.REACT_APP_AWS_COGNITO_REGION,
-  "aws_user_pools_id": process.env.REACT_APP_AWS_COGNITO_USER_POOLS_ID, 
-  "aws_user_pools_web_client_id": process.env.REACT_APP_CLIENT_ID, 
-  "oauth": {},
   Auth: {
-    //we are not using an Indeity pool
-    //indentityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID, // REQUIRED - Amazon cognito Indentity Pool ID
-    region: process.nextTick.REACT_AWS_PROJECT_REGION,         // required - amazon congnito region      
-    userPoolId: process.env.REACT_APP_AWS_USER_POOLS_ID,       // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolWebClientId: process.env.REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID // OPTIONAL - Amazon cognito User Pool Web Client
-
-  }
+    region: process.env.REACT_APP_AWS_PROJECT_REGION,  
+    userPoolId: process.env.REACT_APP_AWS_COGNITO_USER_POOLS_ID, 
+    userPoolWebClientId: process.env.REACT_APP_CLIENT_ID
+  },
+  oauth: {} // Keep this empty unless using OAuth providers like Google, Facebook, etc.
 });
 
 import {
