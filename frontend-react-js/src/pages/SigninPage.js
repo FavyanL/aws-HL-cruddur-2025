@@ -1,10 +1,10 @@
 import './SigninPage.css';
 import React from "react";
-import {ReactComponent as Logo} from '../components/svg/logo.svg';
+import { ReactComponent as Logo } from '../components/svg/logo.svg';
 import { Link } from "react-router-dom";
 
-// [TODO] Authenication
-import { Auth } from '@aws-amplify/auth';
+// ✅ Fix import for AWS Amplify v6
+import { signIn } from '@aws-amplify/auth';
 
 export default function SigninPage() {
 
@@ -13,23 +13,29 @@ export default function SigninPage() {
   const [errors, setErrors] = React.useState('');
 
   const onsubmit = async (event) => {
-    setErrors ('')
+    setErrors('');
     event.preventDefault();
-    try{
-      Auth.signIn(email, password)
-        .then(user => {
-          localStorage.setItem("access_token", user.singInUserSession.accessToken.jwtToken)
-          window.location.href = "/"
-        })
-        .catch(err => { console.log('Error!', err ) });
+    
+    try {
+      const user = await signIn({ username: email, password });
+
+      console.log("Signed in:", user);
+      
+      localStorage.setItem("access_token", user.signInDetails?.loginId || '');
+      window.location.href = "/";
+
     } catch (error) {
-      if (error.code == 'UserNotConfrimedExcept') {
-        window.location.href = "/confirm"
+      console.log('Error signing in:', error);
+      
+      if (error.name === 'UserNotConfirmedException') {
+        window.location.href = "/confirm";
       }
-      setErrors(error.message)
+      
+      setErrors(error.message);
     }
-    return false 
-  }
+
+    return false;
+  };
 
   const email_onchange = (event) => {
     setEmail(event.target.value);
