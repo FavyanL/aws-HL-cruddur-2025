@@ -18,12 +18,12 @@ import '@aws-amplify/ui-react/styles.css';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// ✅ Debugging: Log environment variables
+// Debugging: Log environment variables
 console.log("Amplify Config - User Pool ID:", process.env.REACT_APP_AWS_COGNITO_USER_POOLS_ID);
 console.log("Amplify Config - Client ID:", process.env.REACT_APP_CLIENT_ID);
 console.log("Amplify Config - OAuth Domain:", process.env.REACT_APP_OAUTH_DOMAIN);
 
-// ✅ Configure Amplify
+// Configure Amplify
 Amplify.configure(awsConfig);
 
 function App() {

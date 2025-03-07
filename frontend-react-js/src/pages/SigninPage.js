@@ -3,7 +3,7 @@ import React from "react";
 import { ReactComponent as Logo } from '../components/svg/logo.svg';
 import { Link } from "react-router-dom";
 
-// ✅ Fix import for AWS Amplify v6
+// Fix import for AWS Amplify v6
 import { signIn } from '@aws-amplify/auth';
 
 export default function SigninPage() {

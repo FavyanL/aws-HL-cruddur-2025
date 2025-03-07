@@ -31,7 +31,7 @@ services:
       REACT_APP_AWS_PROJECT_REGION: "us-east-1"
       REACT_APP_AWS_COGNITO_REGION: "us-east-1"
       REACT_APP_AWS_COGNITO_USER_POOLS_ID: "us-east-1_a6z9SVLi9"
-      REACT_APP_CLIENT_ID: "4k1qp53upr7qujro4g3ksgc79e"
+      REACT_APP_CLIENT_ID: "4l5l0t5sn5b421uql3mbh5rlh0"
       REACT_APP_OAUTH_DOMAIN: "https://us-east-1a6z9svli9.auth.us-east-1.amazoncognito.com"  # Added correct format
       REACT_APP_REDIRECT_SIGN_IN: "http://localhost:3000/"   # Ensure it's HTTP unless using HTTPS
       REACT_APP_REDIRECT_SIGN_OUT: "http://localhost:3000/"
